@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import Art from "./components/artCalculator";
 import Mathe from "./components/MathCalulator";
 import dataDemo from "./demoData";
 import "./App.scss";
 
+
 import profile, { NameContext, EmailContext } from "./context/profieContext";
+
+import Router,{link} from './historyRouter/router';
 
 // class App extends React.Component {
 //   constructor(props) {
@@ -160,6 +163,10 @@ let extrasConf = {
   mathe: 5
 };
 function App() {
+  useLayoutEffect(()=>{
+    new Router();
+  },[])
+
   let [_Average, set_Average] = useState("");
   dataDemo.aerageChangeCb = _Average => {
     set_Average(_Average);
@@ -212,32 +219,39 @@ function App() {
   }
   return (
     <div className="average_warp">
-      <p>
-        email:<input
-          name="email"
-          value={email}
-          onChange={handelContextChange}
-          style={{ width: "200px" }}
-        />
-      </p>
-      <p>
-        name:{name}
-      </p>
-      <p>
-        _Subject:{_Subject.map(e =>
-          <span key={e.code}>
-            {e.code}:{e.score}/
-          </span>
-        )}
-      </p>
-      <p>
-        _Average:{_Average}
-      </p>
-      <p>
-        Extras_Average: {extras_Average}
-      </p>
+      <div id="page404">404</div>
+      <div id="result">
+        <p>
+          email:<input
+            name="email"
+            value={email}
+            onChange={handelContextChange}
+            style={{ width: "200px" }}
+          />
+        </p>
+        <p>
+          name:{name}
+        </p>
+        <p>
+          _Subject:{_Subject.map(e =>
+            <span key={e.code}>
+              {e.code}:{e.score}/
+            </span>
+          )}
+        </p>
+        <p>
+          _Average:{_Average}
+        </p>
+        <p>
+          Extras_Average: {extras_Average}
+        </p>
+      </div>
+      <div id="home">
+        <button data-code='art' onClick={link}>输入美术成绩</button>
+      </div>
       <div className="Calculator_warp">
-        <div>
+        <div id="art">
+          <button data-code='math' onClick={link}>输入数学成绩</button><br/>
           <button onClick={toggle} value="Art">
             显示/影藏
           </button>
@@ -267,7 +281,8 @@ function App() {
               />}
           </NameContext.Provider>
         </div>
-        <div>
+        <div id="math">
+          <button data-code='result' onClick={link}>显示结果</button><br/>
           <button onClick={toggle} value="Math">
             显示/影藏
           </button>
